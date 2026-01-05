@@ -96,9 +96,7 @@ class ResponseGenerator {
             let stream = session.streamResponse(to: prompt)
             
             for try await partial in stream {
-                if let content = partial.content {
-                    currentResponse = content
-                }
+                currentResponse = partial.content
             }
             
         } catch {

@@ -27,19 +27,27 @@ struct InputView: View {
     
     @ViewBuilder
     private var inputBar: some View {
-        HStack {
-            TextField("Message...", text: $input)
+        HStack(alignment: .bottom) {
+            TextField("Message...", text: $input, axis: .vertical)
+                .lineLimit(1...6)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(8)
                 .focused($selected)
-                .onSubmit {
-                    if !input.isEmpty {
-                        onGenerate()
+                .onKeyPress(.return, phases: .down) { keyPress in
+                    if keyPress.modifiers.contains(.command) {
+                        if !input.isEmpty {
+                            onGenerate()
+                            return .handled
+                        }
                     }
+                    return .ignored
                 }
             
             Button(action: {
-                if !input.isEmpty {
-                    onGenerate()
+                withAnimation {
+                    if !input.isEmpty {
+                        onGenerate()
+                    }
                 }
             }) {
                 Image(systemName: "arrow.up")

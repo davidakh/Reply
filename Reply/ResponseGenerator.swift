@@ -9,33 +9,33 @@ import Foundation
 import FoundationModels
 
 enum ResponseStyle: String, CaseIterable, Identifiable {
-    case professional = "Professional"
     case casual = "Casual"
+    case professional = "Professional"
     
     var id: String { rawValue }
     
     var icon: String {
         switch self {
-        case .professional: return "briefcase"
         case .casual: return "face.smiling"
+        case .professional: return "briefcase"
         }
     }
     
     var instructions: String {
         switch self {
-        case .professional:
-            return """
-            You are a professional email writing assistant.
-            Generate professional, polite, and well-structured email responses.
-            Use formal language, proper greetings, and professional sign-offs.
-            Keep responses concise and business-appropriate.
-            """
         case .casual:
             return """
             You are a friendly messaging assistant.
             Generate casual, friendly, and conversational message responses.
             Use informal language and a warm, approachable tone.
             Keep responses brief and natural, like a text message or casual chat.
+            """
+        case .professional:
+            return """
+            You are a professional email writing assistant.
+            Generate professional, polite, and well-structured email responses.
+            Use formal language, proper greetings, and professional sign-offs.
+            Keep responses concise and business-appropriate.
             """
         }
     }

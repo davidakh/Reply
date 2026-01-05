@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @State private var generator = ResponseGenerator()
     @State private var input: String = ""
-    @State private var selectedStyle: ResponseStyle = .professional
+    @State private var selectedStyle: ResponseStyle = .casual
     
     var body: some View {
         NavigationStack {
@@ -26,20 +27,22 @@ struct ContentView: View {
                             }
                         }
                     )
+                    .transition(.blurReplace)
                 } else {
                     // Response section
                     ResponseView(
                         response: $generator.currentResponse,
                         isGenerating: generator.isGenerating,
                         onRetry: {
-                            Task {
-                                await generator.retry(for: input, style: selectedStyle)
-                            }
+                            resetState()
                         },
                         onCopy: {
                             copyToClipboard(generator.currentResponse)
+                            
+                            resetState()
                         }
                     )
+                    .transition(.blurReplace)
                 }
             
                 // Error message
@@ -51,7 +54,17 @@ struct ContentView: View {
                 }
             }
         }
+        .intelligence(active: generator.isGenerating, opacity: 0.25, shape: RoundedRectangle(cornerRadius: 24))
         .glassEffect(.regular.interactive(), in: RoundedRectangle(cornerRadius: 24))
+        .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .background || newPhase == .inactive {
+                resetState()
+            }
+        }
+    }
+    
+    private func resetState() {
+        generator.clear()
     }
     
     private func copyToClipboard(_ text: String) {

@@ -90,15 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     @objc func updateStatusItemImage() {
         if let button = statusItem?.button {
             // Use system image (SF Symbol)
-            if let image = NSImage(systemSymbolName: "text.bubble.fill", accessibilityDescription: nil) {
-                image.isTemplate = true // Adapts to menu bar appearance
-                let resizedImage = NSImage(size: NSSize(width: 18, height: 18))
-                resizedImage.lockFocus()
-                image.draw(in: NSRect(x: 0, y: 0, width: 18, height: 18))
-                resizedImage.unlockFocus()
-                resizedImage.isTemplate = true
-                button.image = resizedImage
-            }
+            button.image = NSImage(systemSymbolName: "text.bubble.fill", accessibilityDescription: "Dualsense")
         }
     }
     

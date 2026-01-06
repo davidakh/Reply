@@ -16,7 +16,7 @@ enum ResponseStyle: String, CaseIterable, Identifiable {
     
     var icon: String {
         switch self {
-        case .casual: return "face.smiling.inverse"
+        case .casual: return "face.smiling"
         case .professional: return "briefcase"
         }
     }

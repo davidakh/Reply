@@ -77,16 +77,21 @@ struct InputView: View {
                     Button(action: {
                         selectedStyle = style
                     }) {
-                        Label(style.rawValue, systemImage: style.icon)
+                        HStack(spacing: 0) {
+                            Image(systemName: style.icon)
+                            Text(style.rawValue)
+                        }
                     }
                 }
             } label: {
-                HStack {
-                    Label(selectedStyle.rawValue, systemImage: selectedStyle.icon)
-                        .font(.footnote)
-                        .fontWeight(.medium)
+                HStack(spacing: 2) {
+                    Image(systemName: selectedStyle.icon)
+                    Text(selectedStyle.rawValue)
                 }
-                .padding(6)
+                .font(.footnote)
+                .fontWeight(.medium)
+                .padding(.leading, 3)
+                .padding(.trailing, 6)
                 .frame(maxHeight: 18)
                 .background(styleHover ? Color.gray.opacity(0.25) : Color.clear)
                 .clipShape(Capsule())
